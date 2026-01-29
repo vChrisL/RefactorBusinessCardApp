@@ -51,6 +51,12 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun BusinessCardApp(modifier: Modifier = Modifier) {
+    // NOTE: A Surface represents a Material Design Surface - basically
+    // a background tha tht eUI content sits on.
+    // When it fills the screen, you can think of it as the screen background.
+    // We could just use the Box and add a background color to it, but, Surface
+    // is the Material-correct way and supports theming and elevation later
+    // when we learn more about Material Design
     Surface(
         modifier = modifier.fillMaxSize(),
         color = Color(0xFFD2E8D4)
