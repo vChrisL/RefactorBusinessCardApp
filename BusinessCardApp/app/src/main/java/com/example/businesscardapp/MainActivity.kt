@@ -29,6 +29,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -51,8 +53,10 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun BusinessCardApp(modifier: Modifier = Modifier) {
+    val iconTint = Color(0xFF1E6F3C)
+    val textColor = Color(0xFF081A0E)
     // NOTE: A Surface represents a Material Design Surface - basically
-    // a background tha tht eUI content sits on.
+    // a background that the UI content sits on.
     // When it fills the screen, you can think of it as the screen background.
     // We could just use the Box and add a background color to it, but, Surface
     // is the Material-correct way and supports theming and elevation later
@@ -65,108 +69,139 @@ fun BusinessCardApp(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxSize()
         ) {
             // Profile Section
-            Column(
+            ProfileSection(
+                name = "Stephen Carter",
+                title = "Instructor - Software Dev",
+                logoResId = R.drawable.android_logo,
                 modifier = Modifier
                     .align(Alignment.Center)
-                    .padding(horizontal = 24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.android_logo),
-                    contentDescription = "Android logo",
-                    modifier = Modifier
-                        .background(Color(0xFF0B3042))
-                        .padding(12.dp)
-                        .size(100.dp)
-                )
+                    .padding(horizontal = 24.dp)
+            )
 
-                Spacer(modifier = Modifier.height(12.dp))
-
-                Text(
-                    text = "Stephen Carter",
-                    fontSize = 36.sp,
-                    color = Color(0xFF081A0E),
-                    textAlign = TextAlign.Center
-                )
-
-                Spacer(modifier = Modifier.height(6.dp))
-
-                Text(
-                    text = "Instructor - Software Dev",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFF1E6F3C),
-                    textAlign = TextAlign.Center
-                )
-            }
             // Contact Section
-            Column(
+            ContactSection(
+                phone = "+1 (506) 555-1234",
+                handle = "@stephencarter",
+                email = "stephen.carter@nbcc.ca",
+                iconTint = iconTint,
+                textColor = textColor,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(bottom = 48.dp)
-                    // this makes column become width of widest row
-                    .width(IntrinsicSize.Max),
-            horizontalAlignment = Alignment.Start,
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Phone,
-                        contentDescription = "Phone",
-                        tint = Color(0xFF1E6F3C)
-                    )
-
-                    Spacer(modifier = Modifier.width(16.dp))
-
-                    Text(
-                        text = "+1 (506) 555-1234",
-                        color = Color(0xFF081A0E),
-                        fontSize = 16.sp
-                    )
-                }
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Share,
-                        contentDescription = "Share",
-                        tint = Color(0xFF1E6F3C)
-                    )
-
-                    Spacer(modifier = Modifier.width(16.dp))
-
-                    Text(
-                        text = "@stephencarter",
-                        color = Color(0xFF081A0E),
-                        fontSize = 16.sp
-                    )
-                }
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Email,
-                        contentDescription = "Email",
-                        tint = Color(0xFF1E6F3C)
-                    )
-
-                    Spacer(modifier = Modifier.width(16.dp))
-
-                    Text(
-                        text = "stephen.carter@nbcc.ca",
-                        color = Color(0xFF081A0E),
-                        fontSize = 16.sp
-                    )
-                }
-            }
+            )
         }
+    }
+}
+
+@Composable
+fun ProfileSection(
+    name: String,
+    title: String,
+    logoResId: Int,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            painter = painterResource(id = logoResId),
+            contentDescription = "Android logo",
+            modifier = Modifier
+                .background(Color(0xFF0B3042))
+                .padding(12.dp)
+                .size(100.dp)
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Text(
+            text = name,
+            fontSize = 36.sp,
+            color = Color(0xFF081A0E),
+            textAlign = TextAlign.Center
+        )
+
+        Spacer(modifier = Modifier.height(6.dp))
+
+        Text(
+            text = title,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color(0xFF1E6F3C),
+            textAlign = TextAlign.Center
+        )
+    }
+}
+
+@Composable
+fun ContactSection(
+    phone: String,
+    handle: String,
+    email: String,
+    iconTint: Color,
+    textColor: Color,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            // this makes column become width of widest row
+            .width(IntrinsicSize.Max),
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        ContactRow(
+            icon = Icons.Filled.Phone,
+            iconContentDesc = "Phone",
+            text = phone,
+            iconTint = iconTint,
+            textColor = textColor
+        )
+
+        ContactRow(
+            icon = Icons.Filled.Share,
+            iconContentDesc = "Share",
+            text = handle,
+            iconTint = iconTint,
+            textColor = textColor
+        )
+
+        ContactRow(
+            icon = Icons.Filled.Email,
+            iconContentDesc = "Email",
+            text = email,
+            iconTint = iconTint,
+            textColor = textColor
+        )
+    }
+}
+
+@Composable
+fun ContactRow(
+    icon: ImageVector,
+    iconContentDesc: String,
+    text: String,
+    iconTint: Color,
+    textColor: Color,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = iconContentDesc,
+            tint = iconTint
+        )
+
+        Spacer(modifier = Modifier.width(16.dp))
+
+        Text(
+            text = text,
+            color = textColor,
+            fontSize = 16.sp
+        )
     }
 }
 
